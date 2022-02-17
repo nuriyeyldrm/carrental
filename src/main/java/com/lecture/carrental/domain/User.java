@@ -64,7 +64,7 @@ public class User {
     private String zipCode;
 
     @Column(nullable = false)
-    private Boolean builtIn;
+    private Boolean builtIn = false;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",
