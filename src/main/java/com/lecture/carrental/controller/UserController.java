@@ -83,4 +83,20 @@ public class UserController {
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
+    @PatchMapping("/user/auth")
+    @PreAuthorize("hasRole('CUSTOMER') or hasRole('ADMIN')")
+    public ResponseEntity<Map<String, Boolean>> updatePassword(HttpServletRequest request,
+                                                               @RequestBody Map<String, Object> userMap) {
+        Long id = (Long) request.getAttribute("id");
+        String newPassword = (String) userMap.get("newPassword");
+        String oldPassword = (String) userMap.get("oldPassword");
+
+        userService.updatePassword(id, newPassword, oldPassword);
+
+        Map<String, Boolean> map = new HashMap<>();
+        map.put("success", true);
+
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+
 }
