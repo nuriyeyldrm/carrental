@@ -3,12 +3,14 @@ package com.lecture.carrental.repository;
 import com.lecture.carrental.domain.User;
 import com.lecture.carrental.exception.BadRequestException;
 import com.lecture.carrental.exception.ResourceNotFoundException;
+import com.lecture.carrental.projection.ProjectUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -19,6 +21,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);
 
     Boolean existsByEmail(String email) throws ResourceNotFoundException;
+
+    List<ProjectUser> findAllBy();
 
     @Modifying
     @Query("UPDATE User u " +

@@ -8,6 +8,7 @@ import com.lecture.carrental.exception.AuthException;
 import com.lecture.carrental.exception.BadRequestException;
 import com.lecture.carrental.exception.ConflictException;
 import com.lecture.carrental.exception.ResourceNotFoundException;
+import com.lecture.carrental.projection.ProjectUser;
 import com.lecture.carrental.repository.RoleRepository;
 import com.lecture.carrental.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -16,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -27,6 +29,10 @@ public class UserService {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final static String USER_NOT_FOUND_MSG = "user with id %d not found";
+
+    public List<ProjectUser> fetchAllUsers() {
+        return userRepository.findAllBy();
+    }
 
     public UserDTO findById(Long id) throws ResourceNotFoundException {
         User user = userRepository.findById(id)
