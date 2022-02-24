@@ -145,6 +145,17 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public void removeById(Long id) throws ResourceNotFoundException {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(USER_NOT_FOUND_MSG, id)));
+
+        if (user.getBuiltIn())
+            throw new BadRequestException("You dont have permission to delete user!");
+
+        userRepository.deleteById(id);
+    }
+
+
     public Set<Role> addRoles(Set<String> userRoles) {
 
         Set<Role> roles = new HashSet<>();
