@@ -59,7 +59,7 @@ public class Reservation {
     private Double totalPrice;
 
 
-    private Long getTotalHours(LocalDateTime pickUpTime, LocalDateTime dropOffTime) {
+    public Long getTotalHours(LocalDateTime pickUpTime, LocalDateTime dropOffTime) {
 
         return ChronoUnit.HOURS.between(pickUpTime, dropOffTime);
     }
