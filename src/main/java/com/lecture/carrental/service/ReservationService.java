@@ -31,10 +31,24 @@ public class ReservationService {
 
     private final static String USER_NOT_FOUND_MSG = "user with id %d not found";
     private final static String CAR_NOT_FOUND_MSG = "car with id %d not found";
+    private final static String RESERVATION_NOT_FOUND_MSG = "reservation with id %d not found";
 
 //    public ReservationService(ReservationRepository reservationRepository) {
 //        this.reservationRepository = reservationRepository;
 //    }
+
+
+    public List<ReservationDTO> fetchAllReservations() {
+        return reservationRepository.findAllBy();
+    }
+
+    public ReservationDTO findByIdAndUserId(Long id, Long userId) throws ResourceNotFoundException{
+        User user = userRepository.findById(userId).orElseThrow(() ->
+                new ResourceNotFoundException(String.format(USER_NOT_FOUND_MSG, userId)));
+
+        return reservationRepository.findByIdAndUserId(id, user).orElseThrow(() ->
+                new ResourceNotFoundException(String.format(RESERVATION_NOT_FOUND_MSG, id)));
+    }
 
 
     public List<ReservationDTO> findAllByUserId(Long userId) {
@@ -84,5 +98,8 @@ public class ReservationService {
     }
 
 
+    public ReservationDTO findById(Long id) {
 
+        return null;
+    }
 }

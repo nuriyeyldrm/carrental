@@ -26,6 +26,36 @@ public class ReservationController {
 
     public ReservationService reservationService;
 
+    @GetMapping("/admin/all")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<List<ReservationDTO>> getAllReservations() {
+        List<ReservationDTO> reservations = reservationService.fetchAllReservations();
+
+        return new ResponseEntity<>(reservations, HttpStatus.OK);
+    }
+
+
+    @GetMapping("/{id}/admin")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<ReservationDTO> getReservationById(@PathVariable Long id) {
+        ReservationDTO reservation = reservationService.findById(id);
+
+        return new ResponseEntity<>(reservation, HttpStatus.OK);
+    }
+
+
+
+
+
+    @GetMapping("/{id}/auth")
+    @PreAuthorize("hasRole('CUSTOMER') or hasRole('ADMIN')")
+    public ResponseEntity<ReservationDTO> getUserReservationById(@PathVariable Long id, HttpServletRequest request) {
+        Long userId = (Long) request.getAttribute("id");
+
+        ReservationDTO reservation = reservationService.findByIdAndUserId(id, userId);
+        return new ResponseEntity<>(reservation, HttpStatus.OK);
+    }
+
     @GetMapping("/auth/all")
     @PreAuthorize("hasRole('CUSTOMER') or hasRole('ADMIN')")
     public ResponseEntity<List<ReservationDTO>> getUserReservationsByUserId(HttpServletRequest request) {
