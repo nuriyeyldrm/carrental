@@ -43,9 +43,13 @@ public class ReservationController {
         return new ResponseEntity<>(reservation, HttpStatus.OK);
     }
 
+    @GetMapping("/admin/auth/all")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<List<ReservationDTO>> getAllUserReservations(@RequestParam(value = "userId") Long userId) {
+        List<ReservationDTO> reservations = reservationService.findAllByUserId(userId);
 
-
-
+        return new ResponseEntity<>(reservations, HttpStatus.OK);
+    }
 
     @GetMapping("/{id}/auth")
     @PreAuthorize("hasRole('CUSTOMER') or hasRole('ADMIN')")
@@ -72,6 +76,19 @@ public class ReservationController {
                                                                 @Valid @RequestBody Reservation reservation) {
 
         Long userId = (Long) request.getAttribute("id");
+        reservationService.addReservation(reservation, userId, carId);
+
+        Map<String, Boolean> map = new HashMap<>();
+        map.put("Reservation added successfully!", true);
+
+        return new ResponseEntity<>(map, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/add/auth")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Map<String, Boolean>> addReservation(@RequestParam (value = "userId") Long userId,
+                                                               @RequestParam (value = "carId") Car carId,
+                                                               @Valid @RequestBody Reservation reservation) {
         reservationService.addReservation(reservation, userId, carId);
 
         Map<String, Boolean> map = new HashMap<>();

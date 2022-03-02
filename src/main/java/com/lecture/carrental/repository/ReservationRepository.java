@@ -21,6 +21,8 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 //    @Query("SELECT new com.lecture.carrental.dto.ReservationDTO(r) FROM Reservation r")
     List<ReservationDTO> findAllBy();
 
+    Optional<ReservationDTO> findByIdOrderById(Long id) throws ResourceNotFoundException;
+
 //    @Query("SELECT new com.lecture.carrental.dto.ReservationDTO(r) FROM Reservation r WHERE r.userId = ?1")
     List<ReservationDTO> findAllByUserId(User userId);
 
