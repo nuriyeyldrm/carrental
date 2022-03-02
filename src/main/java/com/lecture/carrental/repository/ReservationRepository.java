@@ -1,7 +1,9 @@
 package com.lecture.carrental.repository;
 
 import com.lecture.carrental.domain.Reservation;
+import com.lecture.carrental.domain.User;
 import com.lecture.carrental.domain.enumeration.ReservationStatus;
+import com.lecture.carrental.dto.ReservationDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -13,6 +15,9 @@ import java.util.List;
 @Repository
 @Transactional
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
+
+//    @Query("SELECT new com.lecture.carrental.dto.ReservationDTO(r) FROM Reservation r WHERE r.userId = ?1")
+    List<ReservationDTO> findAllByUserId(User userId);
 
     @Query("SELECT r FROM Reservation r " +
             "LEFT JOIN fetch r.carId cd " +

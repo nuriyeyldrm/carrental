@@ -41,7 +41,6 @@ public class CarDTO {
 
     private Set<String> image;
 
-
     public CarDTO(Car car) {
         this.id = car.getId();
         this.model = car.getModel();
