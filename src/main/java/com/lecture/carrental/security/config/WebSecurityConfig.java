@@ -52,7 +52,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     // TODO: change it
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable()
+        http.csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(authEntryPointJwt).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests().antMatchers("/register", "/login", "/files/display/**",
@@ -64,6 +64,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers();
+        web.ignoring().antMatchers("/swagger-ui.html", "/v2/api-docs", "/configuration/**",
+                "/swagger-resources/**", "/webjars/**", "/api-docs/**");
     }
 }
