@@ -32,4 +32,28 @@ public class ExcelController {
                 .contentType(MediaType.parseMediaType("application/vmd.ms-excel")).body(file);
     }
 
+    // TODO: added
+    @GetMapping("/download/cars")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Resource> getCarFile() {
+        String fileName = "cars.xlsx";
+        InputStreamResource file = new InputStreamResource(excelService.loadCar());
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName)
+                .contentType(MediaType.parseMediaType("application/vmd.ms-excel")).body(file);
+    }
+
+    // TODO: added
+    @GetMapping("/download/reservations")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Resource> getReservationFile() {
+        String fileName = "reservations.xlsx";
+        InputStreamResource file = new InputStreamResource(excelService.loadReservation());
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName)
+                .contentType(MediaType.parseMediaType("application/vmd.ms-excel")).body(file);
+    }
+
 }
